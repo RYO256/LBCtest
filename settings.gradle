@@ -1,0 +1,2 @@
+rootProject.name = "LBCTest"
+include ':app'
