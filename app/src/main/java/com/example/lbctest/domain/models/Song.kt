@@ -6,12 +6,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Song(
-        @SerializedName("albumId")
+        val id: Int = 0,
         val albumId: Int = 0,
-        @SerializedName("title")
         val title: String = "",
-        @SerializedName("url")
         val url: String = "",
-        @SerializedName("thumbnailUrl")
         val thumbnailUrl: String = ""
 ) : Parcelable

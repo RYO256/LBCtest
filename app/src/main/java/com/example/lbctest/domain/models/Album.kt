@@ -1,3 +1,3 @@
 package com.example.lbctest.domain.models
 
-data class Album (val songs : List<Song>)
+data class Album (val id : Int ,val songs : List<Song>)

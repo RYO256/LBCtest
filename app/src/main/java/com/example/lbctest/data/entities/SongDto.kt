@@ -25,6 +25,7 @@ data class SongDto(
 @Entity(tableName = "songsTable")
 data class SongEntity(
         @PrimaryKey
+        val id: Int = 0,
         val albumId: Int = 0,
         val title: String = "",
         val url: String = "",
@@ -32,16 +33,20 @@ data class SongEntity(
 )
 
 fun List<SongEntity>.asSongsList(): List<Song> = this.map {
-        Song(it.albumId,it.title,it.url,it.thumbnailUrl)
+        Song(it.id,it.albumId,it.title,it.url,it.thumbnailUrl)
 }
 
-fun List<Song>.asAlbumList(): List<Album>  {
+fun List<Song>.asAlbumList(): List<Album> {
         val albums = mutableListOf<Album>()
-        var album = Album(this)
-        albums.add(album)
+        val group = this.groupBy { it.albumId }
+        for (item in group) {
+                val album = Album(item.key, item.value)
+                albums.add(album)
+        }
+
         return albums
 }
 
-fun SongDto.asSongEntity(): SongEntity = SongEntity(this.albumId,this.title,this.url,this.thumbnailUrl)
+fun SongDto.asSongEntity(): SongEntity = SongEntity(this.id,this.albumId,this.title,this.url,this.thumbnailUrl)
 
-fun SongEntity.asSong(): Song = Song(this.albumId,this.title,this.url,this.thumbnailUrl)
+fun SongEntity.asSong(): Song = Song(this.id,this.albumId,this.title,this.url,this.thumbnailUrl)
