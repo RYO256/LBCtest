@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lbctest.R
@@ -33,7 +34,7 @@ class AlbumsListFragment : Fragment() {
         val binding = FragmentAlbumsListBinding.bind(view)
 
         val albumAdapter = AlbumAdapter(requireContext()){
-
+            findNavController().navigate(AlbumsListFragmentDirections.actionAlbumsListFragment2ToAlbumDetailFragment(it))
         }
         albumAdapter.stateRestorationPolicy= RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 

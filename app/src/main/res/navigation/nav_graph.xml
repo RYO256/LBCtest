@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/albumsListFragment2">
+    <fragment
+        android:id="@+id/albumsListFragment2"
+        android:name="com.example.lbctest.ui.albumslist.AlbumsListFragment"
+        android:label="fragment_albums_list"
+        tools:layout="@layout/fragment_albums_list" >
+        <action
+            android:id="@+id/action_albumsListFragment2_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.example.lbctest.ui.albumdetail.AlbumDetailFragment"
+        android:label="AlbumDetailFragment" >
+        <argument
+            android:name="album"
+            app:argType="com.example.lbctest.domain.models.Album" />
+    </fragment>
+</navigation>

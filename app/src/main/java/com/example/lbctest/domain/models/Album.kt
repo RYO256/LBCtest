@@ -1,3 +1,7 @@
 package com.example.lbctest.domain.models
 
-data class Album (val id : Int ,val songs : List<Song>)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Album (val id : Int ,val songs : List<Song>) : Parcelable
