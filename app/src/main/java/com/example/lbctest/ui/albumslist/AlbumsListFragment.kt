@@ -1,36 +1,45 @@
-package com.example.lbctest.ui.main
+package com.example.lbctest.ui.albumslist
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.lbctest.R
 import com.example.lbctest.core.Resource
-import com.example.lbctest.databinding.MainFragmentBinding
+import com.example.lbctest.databinding.FragmentAlbumsListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class AlbumsListFragment : Fragment() {
 
-    private val viewModel by activityViewModels<MainViewModel>()
+    private val viewModel by activityViewModels<AlbumsListViewModel>()
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = AlbumsListFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_albums_list, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = MainFragmentBinding.bind(view)
+        val binding = FragmentAlbumsListBinding.bind(view)
+
+        val albumAdapter = AlbumAdapter(requireContext()){
+
+        }
+        albumAdapter.stateRestorationPolicy= RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
+        val columns = resources.getInteger(R.integer.albums_columns)
+        binding.albumsListAlbumsRecycler.layoutManager = GridLayoutManager(requireContext(), columns)
+        binding.albumsListAlbumsRecycler.adapter = albumAdapter
 
         viewModel.getAlbums().observe(viewLifecycleOwner, { result ->
             when (result) {
@@ -40,7 +49,7 @@ class MainFragment : Fragment() {
                     if (result.data.isEmpty()) {
                         binding.message.text = "empty"
                     }
-                    binding.message.text = result.data.toString()
+                    albumAdapter.submitList(result.data)
                 }
                 is Resource.Failure -> {
                     binding.message.text = "Failure"
