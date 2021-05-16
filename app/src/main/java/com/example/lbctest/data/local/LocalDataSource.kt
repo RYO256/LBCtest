@@ -19,4 +19,8 @@ class LocalDataSource @Inject constructor(private val songsDao: SongsDao) {
         return Resource.Success(songsDao.getSongs().asSongsList().asAlbumList())
     }
 
+    suspend fun removeCachedAlbums(){
+        songsDao.deleteAllSongs()
+    }
+
 }

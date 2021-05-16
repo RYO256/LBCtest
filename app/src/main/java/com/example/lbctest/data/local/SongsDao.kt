@@ -6,7 +6,7 @@ import com.example.lbctest.data.entities.SongEntity
 @Dao
 interface SongsDao {
 
-    @Query("SELECT * FROM songsTable") // This Like operator is needed due that the API returns blank spaces in the name
+    @Query("SELECT * FROM songsTable")
     suspend fun getSongs(): List<SongEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -15,4 +15,6 @@ interface SongsDao {
     @Delete
     suspend fun deleteSong(song: SongEntity)
 
+    @Query("DELETE FROM songsTable")
+    suspend fun deleteAllSongs()
 }

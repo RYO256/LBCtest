@@ -1,9 +1,9 @@
 package com.example.lbctest.domain.repo
 
 import com.example.lbctest.core.Resource
-import com.example.lbctest.data.local.LocalDataSource
 import com.example.lbctest.data.entities.SongEntity
 import com.example.lbctest.data.entities.asSongEntity
+import com.example.lbctest.data.local.LocalDataSource
 import com.example.lbctest.data.remote.NetworkDataSource
 import com.example.lbctest.domain.models.Album
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -28,6 +28,7 @@ class AlbumsRepositoryImpl @Inject constructor(
             networkDataSource.getSongs().collect {
                 when (it) {
                     is Resource.Success -> {
+                        removeCachedAlbums()
                         for (song in it.data) {
                             saveSong(song.asSongEntity())
                         }
@@ -42,11 +43,14 @@ class AlbumsRepositoryImpl @Inject constructor(
         }
 
     override suspend fun getCachedAlbums(): Resource<List<Album>> =
-        localDataSource.getCachedAlbums()
-
+            localDataSource.getCachedAlbums()
 
     override suspend fun saveSong(song: SongEntity) {
-       localDataSource.saveSong(song)
+        localDataSource.saveSong(song)
+    }
+
+    override suspend fun removeCachedAlbums() {
+        localDataSource.removeCachedAlbums()
     }
 
 }

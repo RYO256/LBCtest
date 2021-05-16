@@ -9,4 +9,5 @@ interface AlbumsRepository {
     suspend fun getAlbums(): Flow<Resource<List<Album>>>
     suspend fun getCachedAlbums(): Resource<List<Album>>
     suspend fun saveSong(song: SongEntity)
+    suspend fun removeCachedAlbums()
 }
