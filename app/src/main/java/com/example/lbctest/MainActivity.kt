@@ -3,7 +3,9 @@ package com.example.lbctest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.lbctest.ui.main.MainFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
