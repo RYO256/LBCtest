@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,15 +20,10 @@ class AlbumsListFragment : Fragment() {
 
     private val viewModel by activityViewModels<AlbumsListViewModel>()
 
-    companion object {
-        fun newInstance() = AlbumsListFragment()
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_albums_list, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,13 +43,11 @@ class AlbumsListFragment : Fragment() {
                 is Resource.Loading -> {
                 }
                 is Resource.Success -> {
-                    if (result.data.isEmpty()) {
-                        binding.message.text = "empty"
-                    }
                     albumAdapter.submitList(result.data)
                 }
                 is Resource.Failure -> {
-                    binding.message.text = "Failure"
+                    val toast = Toast.makeText(requireContext(), "Unable to fetch data ... ", Toast.LENGTH_LONG)
+                    toast.show()
                 }
             }
         })
