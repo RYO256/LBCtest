@@ -32,7 +32,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideSongsDao(db: AppDatabase) = db.cocktailDao()
+    fun provideSongsDao(db: AppDatabase) = db.songsDao()
 
     @Singleton
     @Provides

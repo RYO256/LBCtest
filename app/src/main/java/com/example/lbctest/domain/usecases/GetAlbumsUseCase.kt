@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetAlbumsUseCase @Inject constructor(
-        private val repository: AlbumsRepository,
+        private val albumsRepository: AlbumsRepository,
 ) {
-    suspend operator fun invoke(): Flow<Resource<List<Album>>> = repository.getAlbums()
-
+    operator fun invoke(): Flow<Resource<List<Album>>> = albumsRepository.getAll()
 }

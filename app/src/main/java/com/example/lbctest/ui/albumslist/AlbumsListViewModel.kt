@@ -13,10 +13,8 @@ class AlbumsListViewModel @Inject constructor(
         private val getAlbumsUseCase: GetAlbumsUseCase,
 ) : ViewModel() {
 
-
     fun getAlbums() =
             liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
-                emit(Resource.Loading)
                 try {
                     getAlbumsUseCase.invoke().collect {
                         emit(it)

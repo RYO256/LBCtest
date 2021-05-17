@@ -11,47 +11,44 @@ import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
 import com.example.lbctest.databinding.ItemSongBinding
 import com.example.lbctest.domain.models.Song
+import com.example.lbctest.ui.getGlideUrl
 
-class SongAdapter(val context : Context ,private val function: (Song) -> Unit)
-    : ListAdapter<Song, SongAdapter.SongViewHolder>(DiffCallbackEpgDay()) {
+class SongAdapter(private val onClickAction: (Song) -> Unit)
+    : ListAdapter<Song, SongAdapter.SongViewHolder>(DiffCallbackEpgDay) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder =
-            SongViewHolder.from(parent, context)
+            SongViewHolder.from(parent)
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) =
-            holder.bind(context,getItem(position), function)
+            holder.bind(getItem(position), onClickAction)
 
     class SongViewHolder(
             private val binding: ItemSongBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
-            fun from(parent: ViewGroup, context: Context): SongViewHolder {
-                val binding = ItemSongBinding.inflate(LayoutInflater.from(context),
+            fun from(parent: ViewGroup): SongViewHolder {
+                val binding = ItemSongBinding.inflate(LayoutInflater.from(parent.context),
                         parent,
                         false)
                 return SongViewHolder(binding)
             }
         }
 
-        fun bind(context: Context,item: Song, function: (Song) -> Unit) {
+        fun bind(item: Song, onClickAction: (Song) -> Unit) {
             binding.apply {
-                Glide.with(context)
+                Glide.with(itemSongPreview.context)
                         .load(getGlideUrl(item.thumbnailUrl))
                         .centerCrop()
                         .into(itemSongPreview)
                 itemSongTitle.text = item.title
-                root.setOnClickListener { function(item) }
+                root.setOnClickListener { onClickAction(item) }
             }
         }
     }
 }
 
-private fun getGlideUrl(url : String) =  GlideUrl(url, LazyHeaders.Builder()
-        .addHeader("User-Agent", "your-user-agent")
-        .build())
-
-class DiffCallbackEpgDay : DiffUtil.ItemCallback<Song>() {
+object DiffCallbackEpgDay : DiffUtil.ItemCallback<Song>() {
 
     override fun areItemsTheSame(oldItem: Song, newItem: Song): Boolean =
             oldItem.id == newItem.id

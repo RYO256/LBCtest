@@ -1,26 +1,10 @@
-package com.example.lbctest.data.entities
+package com.example.lbctest.data.local.entities
 
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.lbctest.domain.models.Album
 import com.example.lbctest.domain.models.Song
-import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
-data class SongDto(
-        @SerializedName("albumId")
-        val albumId: Int = 0,
-        @SerializedName("id")
-        val id: Int = 0,
-        @SerializedName("title")
-        val title: String = "",
-        @SerializedName("url")
-        val url: String = "",
-        @SerializedName("thumbnailUrl")
-        val thumbnailUrl: String = ""
-) : Parcelable
 
 @Entity(tableName = "songsTable")
 data class SongEntity(
@@ -46,7 +30,3 @@ fun List<Song>.asAlbumList(): List<Album> {
 
         return albums
 }
-
-fun SongDto.asSongEntity(): SongEntity = SongEntity(this.id,this.albumId,this.title,this.url,this.thumbnailUrl)
-
-fun SongEntity.asSong(): Song = Song(this.id,this.albumId,this.title,this.url,this.thumbnailUrl)

@@ -1,16 +1,15 @@
 package com.example.lbctest.domain.repo
 
 import com.example.lbctest.core.Resource
-import com.example.lbctest.data.entities.SongEntity
-import com.example.lbctest.data.entities.asSongEntity
 import com.example.lbctest.data.local.LocalDataSource
 import com.example.lbctest.data.remote.NetworkDataSource
+import com.example.lbctest.data.remote.dto.asSongEntity
 import com.example.lbctest.domain.models.Album
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -20,37 +19,22 @@ class AlbumsRepositoryImpl @Inject constructor(
         private val localDataSource: LocalDataSource
 ) : AlbumsRepository {
 
-    override suspend fun getAlbums(): Flow<Resource<List<Album>>>  =
-        callbackFlow {
+    override fun getAll(): Flow<Resource<List<Album>>> =
+            flow {
+                emit(localDataSource.getCachedAlbums())
 
-            offer(getCachedAlbums())
-
-            networkDataSource.getSongs().collect {
-                when (it) {
-                    is Resource.Success -> {
-                        removeCachedAlbums()
-                        for (song in it.data) {
-                            saveSong(song.asSongEntity())
+                networkDataSource.getSongs().collect {
+                    when (it) {
+                        is Resource.Success -> {
+                            localDataSource.removeCachedAlbums()
+                            for (song in it.data) {
+                                localDataSource.saveSong(song.asSongEntity())
+                            }
+                            emit(localDataSource.getCachedAlbums())
                         }
-                        offer(getCachedAlbums())
+
+                        else -> emit(localDataSource.getCachedAlbums())
                     }
-                    is Resource.Failure -> {
-                        offer(getCachedAlbums())
-                    }
-                    else -> offer(getCachedAlbums())
                 }
             }
-        }
-
-    override suspend fun getCachedAlbums(): Resource<List<Album>> =
-            localDataSource.getCachedAlbums()
-
-    override suspend fun saveSong(song: SongEntity) {
-        localDataSource.saveSong(song)
-    }
-
-    override suspend fun removeCachedAlbums() {
-        localDataSource.removeCachedAlbums()
-    }
-
 }

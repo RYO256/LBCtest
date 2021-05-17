@@ -1,20 +1,20 @@
 package com.example.lbctest.data.local
 
 import androidx.room.*
-import com.example.lbctest.data.entities.SongEntity
+import com.example.lbctest.data.local.entities.SongEntity
 
 @Dao
 interface SongsDao {
 
     @Query("SELECT * FROM songsTable")
-    suspend fun getSongs(): List<SongEntity>
+    suspend fun getAll(): List<SongEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun saveSong(song: SongEntity)
+    suspend fun save(song: SongEntity)
 
     @Delete
-    suspend fun deleteSong(song: SongEntity)
+    suspend fun delete(song: SongEntity)
 
     @Query("DELETE FROM songsTable")
-    suspend fun deleteAllSongs()
+    suspend fun deleteAll()
 }
