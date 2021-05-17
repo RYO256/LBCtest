@@ -2,13 +2,12 @@ package com.example.lbctest.usecases
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.lbctest.CoroutineTestRule
-import com.example.lbctest.domain.repo.AlbumsRepositoryImpl
+import com.example.lbctest.data.AlbumsRepositoryImpl
 import com.example.lbctest.domain.usecases.GetAlbumsUseCase
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito
 import org.mockito.Mockito.*
 
 class GetAlbumsUseCaseTest {
@@ -33,9 +32,7 @@ class GetAlbumsUseCaseTest {
     @Test
     @Suppress("IllegalIdentifier")
     fun `when invoke albumsRepository getAll should be called`() = runBlockingTest {
-
         sut.invoke()
         verify(albumsRepository).getAll()
-
     }
 }

@@ -1,10 +1,11 @@
-package com.example.lbctest.domain.repo
+package com.example.lbctest.data
 
 import com.example.lbctest.core.Resource
 import com.example.lbctest.data.local.LocalDataSource
 import com.example.lbctest.data.remote.NetworkDataSource
 import com.example.lbctest.data.remote.dto.asSongEntity
 import com.example.lbctest.domain.models.Album
+import com.example.lbctest.domain.repo.AlbumsRepository
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow

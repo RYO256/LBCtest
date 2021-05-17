@@ -1,7 +1,7 @@
 package com.example.lbctest.application.injection
 
 import com.example.lbctest.domain.repo.AlbumsRepository
-import com.example.lbctest.domain.repo.AlbumsRepositoryImpl
+import com.example.lbctest.data.AlbumsRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

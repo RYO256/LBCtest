@@ -1,7 +1,6 @@
 package com.example.lbctest.domain.repo
 
 import com.example.lbctest.core.Resource
-import com.example.lbctest.data.local.entities.SongEntity
 import com.example.lbctest.domain.models.Album
 import kotlinx.coroutines.flow.Flow
 
